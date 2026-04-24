@@ -1,111 +1,132 @@
-# EV Smart Load Controller (Assembly - RISC-V)
+# EV Smart Load Controller (RISC-V Assembly)
 
 ## Integrantes
-| Nome do Aluno | RM |
-| :--- | :--- |
-| **Luca Almeida Lucareli** | 569061 |
-| **Leonardo Scotti Tobias** | 573305 |
-| **Henrique Almeida Lucareli** | 569183 |
-| **Natan Silva da Costa** | 573100 |
-| **Enzo Seiji Delgado Tabuchi** | 573156 |
+
+| Nome                       | RM     |
+| -------------------------- | ------ |
+| Luca Almeida Lucareli      | 569061 |
+| Leonardo Scotti Tobias     | 573305 |
+| Henrique Almeida Lucareli  | 569183 |
+| Natan Silva da Costa       | 573100 |
+| Enzo Seiji Delgado Tabuchi | 573156 |
 
 ---
 
-## Problema
+## Visão Geral
 
-Eletropostos modernos utilizam software de alto nível e hardware genérico, o que resulta em:
+Este projeto implementa um **controlador inteligente de carga para veículos elétricos** utilizando **Assembly RISC-V (RV32I)**, com foco em:
 
-- Alto consumo energético computacional
-- Baixa eficiência no uso de CPU
-- Desperdício de recursos em sistemas embarcados
+* Eficiência computacional
+* Baixo consumo de energia
+* Otimização de recursos em sistemas embarcados
+  
+---
+
+## Solução Proposta
+
+Desenvolver um módulo em **Assembly (RISC-V)** capaz de:
+
+* Calcular a demanda energética dos veículos
+* Priorizar fontes de energia de forma inteligente
+* Reduzir ciclos de processamento
+* Operar com alta eficiência energética
 
 ---
 
-## Proposta de Solução
+## Arquitetura
 
-Desenvolver um módulo em **Assembly (RISC-V)** para:
+* **ISA:** RISC-V (RV32I)
+* **Motivação:**
 
-- Gerenciamento eficiente de carga de veículos elétricos
-- Distribuição inteligente de energia
-- Redução de ciclos de CPU
-
----
-
-## Arquitetura Utilizada
-
-- Arquitetura: **RISC-V (RV32I)**
-- Motivo:
-  - Menor complexidade de instruções
-  - Melhor eficiência energética
-  - Ideal para sistemas embarcados
+  * Simplicidade e previsibilidade
+  * Baixo overhead computacional
+  * Ideal para aplicações embarcadas e IoT
+  * Maior eficiência energética comparado a arquiteturas complexas
 
 ---
 
-## Funcionamento do Sistema
+## Funcionamento
 
-### 1. Cálculo da Demanda Energética
+### 1. Cálculo da Demanda
 
-A demanda é calculada com base no estado de carga (SoC):
+A demanda de cada veículo é baseada no seu estado de carga (SoC):
+
+```text
+demanda_individual = 100 - SoC
+demanda_total = Σ demanda_individual
 ```
-demanda = 100 - SoC
-```
 
-
-- Quanto menor o SoC, maior a prioridade
-- Implementado com complexidade **O(n)**
+* Complexidade: **O(n)**
+* Abordagem linear e eficiente
 
 ---
 
-### 2. Hierarquia de Energia (Sustentável)
+### 2. Estratégia de Distribuição de Energia
 
-O sistema prioriza fontes na seguinte ordem:
+O sistema utiliza uma abordagem sustentável, priorizando:
 
 1. Energia Solar
 2. Bateria
-3. Rede elétrica
+3. Rede Elétrica
+
+A decisão é feita com o menor número possível de desvios (branches), otimizando o pipeline da CPU.
 
 ---
 
-## Otimizações Aplicadas
+## Otimizações Implementadas
 
-### 1. Redução de Complexidade
-- Remoção de algoritmos O(n²) (ex: Bubble Sort)
-- Uso de loop linear O(n)
+### Redução de Complexidade
 
-### 2. Menos Acessos à Memória
-- Uso intensivo de registradores
-- Minimização de leituras em RAM
+* Eliminação de algoritmos desnecessários
+* Uso exclusivo de loops lineares
 
-### 3. Menos Instruções
-- Código enxuto
-- Menos ciclos de CPU
+### Minimização de Acessos à Memória
 
-### 4. Pipeline-Friendly
-- Redução de desvios (branches)
-- Fluxo de execução mais previsível
+* Uso intensivo de registradores
+* Carregamento único de dados críticos
+
+### Código Enxuto
+
+* Menor número de instruções
+* Execução mais rápida
+
+### Pipeline Optimization
+
+* Redução de branches
+* Fluxo previsível de execução
 
 ---
 
-## Impacto Energético
+## Eficiência Energética
 
-A otimização em Assembly permite:
+O uso de Assembly permite:
 
-- Redução no número de ciclos de clock
-- Menor uso de CPU
-- Menor consumo de energia
+* Menos ciclos de clock por operação
+* Redução do uso da CPU
+* Menor consumo energético total
+* Melhor desempenho por watt
 
 ---
 
 ## Sustentabilidade
 
-Este projeto contribui diretamente para:
+O sistema contribui diretamente para:
 
-- Uso prioritário de energia renovável
-- Redução do consumo energético computacional
-- Maior eficiência em sistemas de mobilidade elétrica
+* Prioridade no uso de energia renovável
+* Redução do desperdício energético
+* Eficiência em infraestrutura de mobilidade elétrica
+
+---
+
+## Possíveis Extensões
+
+* Integração com sensores IoT
+* Monitoramento em tempo real
+* Implementação em hardware real (SoC RISC-V)
+* Interface com sistemas de smart grid
 
 ---
 
 ## Conclusão
 
-A utilização de Assembly em conjunto com arquitetura RISC permite criar sistemas embarcados altamente eficientes, reduzindo o consumo energético e contribuindo para a sustentabilidade na mobilidade elétrica.
+Este projeto demonstra que o uso de **Assembly em arquitetura RISC-V** pode gerar soluções altamente eficientes para sistemas embarcados, especialmente em cenários críticos como o gerenciamento de energia em eletropostos.

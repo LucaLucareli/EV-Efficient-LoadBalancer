@@ -1,4 +1,4 @@
-# EV Smart Load Controller (RISC-V Assembly)
+# EV Smart Load Controller (RISC-V Assembly + Python Comparison)
 
 ## Integrantes
 
@@ -12,109 +12,174 @@
 
 ---
 
-## Visão Geral
+## Problema
 
-Este projeto implementa um **controlador inteligente de carga para veículos elétricos** utilizando **Assembly RISC-V (RV32I)**, com foco em:
+Eletropostos frequentemente utilizam software de alto nível e hardware genérico para tarefas simples, como:
 
-* Eficiência computacional
-* Baixo consumo de energia
-* Otimização de recursos em sistemas embarcados
-  
----
+* Autenticação de usuários
+* Controle de carga de veículos
+* Monitoramento de energia
 
-## Solução Proposta
+Isso gera:
 
-Desenvolver um módulo em **Assembly (RISC-V)** capaz de:
-
-* Calcular a demanda energética dos veículos
-* Priorizar fontes de energia de forma inteligente
-* Reduzir ciclos de processamento
-* Operar com alta eficiência energética
+* Consumo desnecessário de energia computacional
+* Maior número de ciclos de CPU
+* Baixa eficiência energética
 
 ---
 
-## Arquitetura
+## Justificativa
+
+Cada instrução executada por um processador consome energia.
+
+Sistemas escritos em linguagens de alto nível:
+
+* Executam mais instruções
+* Possuem overhead de abstração
+* Consomem mais energia
+
+A solução é utilizar **Assembly**, aproximando o software do hardware.
+
+---
+
+## Proposta de Solução
+
+Desenvolver um módulo de gerenciamento de carga em:
+
+* **Assembly (RISC-V)** → versão otimizada
+* **Python** → versão de comparação (alto nível)
+
+Objetivo:
+
+* Comparar eficiência computacional
+* Demonstrar redução de consumo energético
+* Aplicar conceitos de arquitetura de computadores
+
+---
+
+## Arquitetura Utilizada
 
 * **ISA:** RISC-V (RV32I)
-* **Motivação:**
+* **Modelo:** RISC (Reduced Instruction Set Computer)
 
-  * Simplicidade e previsibilidade
-  * Baixo overhead computacional
-  * Ideal para aplicações embarcadas e IoT
-  * Maior eficiência energética comparado a arquiteturas complexas
+### Vantagens:
+
+* Instruções simples
+* Execução previsível
+* Menor consumo por instrução
+* Ideal para sistemas embarcados
 
 ---
 
-## Funcionamento
+## Funcionamento do Sistema
 
 ### 1. Cálculo da Demanda
 
-A demanda de cada veículo é baseada no seu estado de carga (SoC):
-
 ```text
 demanda_individual = 100 - SoC
-demanda_total = Σ demanda_individual
+demanda_total = soma das demandas
 ```
-
-* Complexidade: **O(n)**
-* Abordagem linear e eficiente
 
 ---
 
-### 2. Estratégia de Distribuição de Energia
+### 2. Distribuição de Energia
 
-O sistema utiliza uma abordagem sustentável, priorizando:
+Prioridade:
 
 1. Energia Solar
 2. Bateria
 3. Rede Elétrica
 
-A decisão é feita com o menor número possível de desvios (branches), otimizando o pipeline da CPU.
+---
+
+## Implementação em Assembly (RISC-V)
+
+* Uso direto de registradores
+* Controle manual de memória
+* Loop explícito para cálculo
+* Uso de instruções otimizadas
 
 ---
 
-## Otimizações Implementadas
+## Comparação: Python vs Assembly
 
-### Redução de Complexidade
+| Critério             | Python    | Assembly   |
+| -------------------- | ------------ | ------------- |
+| Nível                | Alto         | Baixo         |
+| Controle de hardware | Nenhum       | Total         |
+| Execução             | Interpretada | Direta na CPU |
+| Nº de instruções     | Alto         | Baixo         |
+| Ciclos de CPU        | Muitos       | Poucos        |
+| Consumo energético   | Maior        | Menor         |
+| Eficiência           | Média        | Alta          |
 
-* Eliminação de algoritmos desnecessários
-* Uso exclusivo de loops lineares
+---
 
-### Minimização de Acessos à Memória
+## Análise de Ciclos de CPU
 
-* Uso intensivo de registradores
-* Carregamento único de dados críticos
+### Python:
+
+* Código interpretado
+* Cada operação gera múltiplas instruções internas
+* Pode consumir **centenas de ciclos**
+
+### Assembly (RISC-V):
+
+* ~1 ciclo por instrução (pipeline ideal)
+* Execução direta no hardware
+
+Resultado:
+
+**Menos instruções → menos ciclos → menor consumo de energia**
+
+---
+
+## Otimizações no Assembly
+
+### Uso de Registradores
+
+* Evita acessos repetidos à memória
+
+### Minimização de Branches
+
+* Reduz penalidade no pipeline
 
 ### Código Enxuto
 
 * Menor número de instruções
-* Execução mais rápida
 
-### Pipeline Optimization
+### Pipeline Otimizado
 
-* Redução de branches
-* Fluxo previsível de execução
+* Fluxo previsível
 
----
+### Modo de Baixo Consumo
 
-## Eficiência Energética
+```asm
+wfi
+```
 
-O uso de Assembly permite:
-
-* Menos ciclos de clock por operação
-* Redução do uso da CPU
-* Menor consumo energético total
-* Melhor desempenho por watt
+* CPU entra em estado de economia de energia
+* Ideal para sistemas embarcados
 
 ---
 
 ## Sustentabilidade
 
-O sistema contribui diretamente para:
+Este projeto contribui para:
 
-* Prioridade no uso de energia renovável
-* Redução do desperdício energético
-* Eficiência em infraestrutura de mobilidade elétrica
+* Redução do consumo energético dos eletropostos
+* Uso prioritário de energia solar
+* Melhor eficiência computacional
+* Menor necessidade de hardware potente
+
+---
+
+## Impactos Esperados
+
+* Redução de consumo de energia computacional
+* Melhor aproveitamento de energia renovável
+* Maior eficiência em recarga de veículos elétricos
+* Redução do impacto ambiental
 
 ---
 
@@ -122,11 +187,22 @@ O sistema contribui diretamente para:
 
 * Integração com sensores IoT
 * Monitoramento em tempo real
-* Implementação em hardware real (SoC RISC-V)
-* Interface com sistemas de smart grid
+* Implementação em hardware real
+* Integração com smart grid
 
 ---
 
 ## Conclusão
 
-Este projeto demonstra que o uso de **Assembly em arquitetura RISC-V** pode gerar soluções altamente eficientes para sistemas embarcados, especialmente em cenários críticos como o gerenciamento de energia em eletropostos.
+A comparação entre Python e Assembly demonstra que:
+
+* Linguagens de alto nível são mais fáceis de usar, porém menos eficientes
+* Assembly oferece controle total do hardware e maior eficiência energética
+
+Este projeto mostra como decisões de arquitetura impactam diretamente:
+
+-> desempenho
+-> consumo energético
+-> sustentabilidade
+
+---
